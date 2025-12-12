@@ -1,0 +1,178 @@
+/* src/components/Testimonials/Testimonials.module.css */
+
+/* --- Base Theme Variables (if not global) --- */
+:root {
+  --background: #0A0826;
+  --text-primary: #ffffff;
+  --text-secondary: #D1D1D1;
+  --neutral-card: #181846;
+  --secondary-background: #1A1A3D;
+  --secondary-accent: #8B5CF6;
+  --highlight: yellow; /* Or #FFD700 etc. */
+}
+
+.testimonialsSection {
+  padding: 4rem 1rem;
+  background-color: var(--background);
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 2.5rem);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+}
+
+/* Grid Container for Columns */
+.marqueeGridContainer {
+  display: grid;
+  /* --- CHANGED: 2 columns for mobile --- */
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 1rem; /* Tighter gap for mobile */
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Marquee Container (for each column) */
+.marqueeContainer {
+  height: 50vh;
+  max-height: 500px;
+  overflow: hidden;
+  position: relative;
+  width: 12rem;
+   /* --- REMOVED max-width and margin auto --- */
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+/* --- ADDED: Hide 3rd column on mobile/tablet --- */
+.marqueeContainer:nth-child(3) {
+  display: none;
+}
+
+.marqueeContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  animation: scrollVertical 20s linear infinite;
+  will-change: transform;
+}
+
+.marqueeContainer:hover .marqueeContent {
+  animation-play-state: paused;
+}
+
+@keyframes scrollVertical {
+  from { transform: translateY(0%); }
+  to { transform: translateY(-50%); }
+}
+
+/* Testimonial Card Styles */
+.testimonialCard {
+  background-color: var(--neutral-card);
+  border: 1px solid var(--secondary-background);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-align:start;
+  flex-shrink: 0;
+}
+
+.testimonialText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+}
+
+.rating {
+  color:#FFD700;
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  text-shadow: 0 0 6px color-mix(in srgb, #FFD700 40%, transparent);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.userImage {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--secondary-background);
+}
+
+.userDetails {
+  line-height: 1.2;
+}
+
+.userName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.userHandle {
+  font-size: 0.75rem;
+  color: var(--secondary-accent);
+  opacity: 0.9;
+}
+
+/* --- Media Queries --- */
+
+/* Tablets */
+@media (min-width: 768px) {
+  .marqueeGridContainer {
+    grid-template-columns: repeat(2, 1fr); /* Still 2 columns */
+    gap: 1.5rem; /* Restore gap */
+  }
+   .marqueeContainer {
+     height: 70vh;
+     max-height: 550px;
+      width: 100%;
+   }
+   .testimonialCard {
+     padding: 1.5rem;
+     margin-bottom: 1.5rem;
+   }
+   .testimonialText { font-size: 0.95rem; line-height: 1.6; }
+   .rating { font-size: 1.1rem; }
+   .userImage { width: 40px; height: 40px; }
+   .userName { font-size: 0.9rem; }
+   .userHandle { font-size: 0.8rem; }
+   .title { font-size: 2.2rem; }
+   .subtitle { font-size: 1rem; margin-bottom: 4rem; }
+}
+
+/* Laptops/Desktops */
+@media (min-width: 1024px) {
+  .marqueeGridContainer {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 1.5rem;
+  }
+   .marqueeContainer {
+      max-height: 600px;
+       width: 100%;
+   }
+   /* --- ADDED: Show 3rd column on desktop --- */
+   .marqueeContainer:nth-child(3) {
+      display: block;
+   }
+   .title { font-size: 2.5rem; }
+}

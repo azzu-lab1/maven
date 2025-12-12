@@ -1,0 +1,422 @@
+/* src/components/Navbar/Navbar.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Krona+One:wght@400&display=swap');
+
+:root {
+  --background: #0A0826;
+  --secondary-background: #1A1A3D;
+  --primary-accent: #007BFF;
+  --secondary-accent: #8B5CF6;
+  --highlight: #00D8FF;
+  --warm-counter: #FF6F91;
+  --glow: #FF3DCE;
+  --neutral-card: #12122B;
+  --text-primary: #F5F5F5;
+  --text-secondary: #ffffff;
+}
+
+
+/* --- Base Navbar Styles --- */
+.navbar {
+  position: fixed;
+  z-index: 1000;
+  /* UPDATED: Specific transitions instead of 'all' */
+  transition: transform 0.5s ease-in-out, width 0.5s ease-in-out, height 0.5s ease-in-out, border-radius 0.5s ease-in-out, background-color 0.5s ease-in-out, top 0.5s ease-in-out, left 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+  /* UPDATED: Hinting properties that change */
+  will-change: transform, width, height, border-radius, background-color, top, left, box-shadow;
+  --animation-duration: 0.8s;
+}
+
+/* --- Header Mode (Default) --- */
+.navbarHeaderMode {
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  max-width: 1300px;
+  height: 64px;
+  /* UPDATED: Removed backdrop-filter, using rgba background */
+  background: rgba(26, 26, 61, 0.8); /* Semi-transparent background */
+  /* backdrop-filter: blur(12px); */ /* REMOVED */
+  /* -webkit-backdrop-filter: blur(12px); */ /* REMOVED */
+  border: 1px solid rgba(245, 245, 245, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  overflow: visible;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 0.3s 0.2s ease-out;
+}
+.headerContent.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s ease-in;
+}
+
+.logoImage {
+  height: 40px;
+  width: auto;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+.navLinks {
+  display: none;
+  align-items: center;
+  gap: 1.5rem;
+}
+.navLinks a {
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.navLinks a:hover {
+  color: var(--text-primary);
+  text-shadow: 0 0 10px var(--highlight);
+}
+.signUpButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  background: linear-gradient(45deg, #3c295c, #5d00ff);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+  font-family: var(--font-heading, 'Poppins', sans-serif);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 216, 255, 0.3);
+  display: none;
+}
+.signUpButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 216, 255, 0.5);
+  background: var(--secondary-accent);
+  color: var(--text-primary);
+}
+.navRightGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Hamburger for header mode (always visible initially, hidden by media query) */
+.hamburgerButtonHeader {
+   display: flex;
+   top: 50%;
+   right: 1rem;
+   transform: translateY(-50%);
+   width: 44px;
+   height: 44px;
+}
+
+/* --- Sidebar Mode --- */
+.navbarSidebarMode {
+  top: 0.5rem;
+  left: 0.5rem;
+  transform: translateX(0);
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  backdrop-filter: none; /* Ensure no blur here either */
+  border: none;
+  border-radius: 50%;
+  box-shadow: none;
+  overflow: visible;
+}
+
+/* Hamburger Base (Shared Styles) */
+.hamburgerButton {
+  background: linear-gradient(45deg, #3c295c, #5d00ff);
+  position: absolute;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 1001;
+  transition: all 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* Adjust hover transform for header button specifically */
+.navbarHeaderMode .hamburgerButton:hover {
+  transform: scale(1.1) translateY(-50%); /* Adjust hover transform for header */
+}
+.navbarSidebarMode .hamburgerButton:hover {
+  transform: scale(1.1); /* Keep original for sidebar mode */
+}
+
+
+/* Position for Sidebar Mode */
+.hamburgerButtonSidebar {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+  width: 100%;
+  height: 100%;
+}
+
+/* Icon container and visibility (Shared) */
+.iconContainer {
+    position: relative;
+    width: 60%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.iconBase {
+    position: absolute;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+.iconVisible { opacity: 1; transform: rotate(0deg) scale(1); }
+.iconHidden { opacity: 0; transform: rotate(45deg) scale(0); }
+/* Specific rotation for close icon */
+.hamburgerButton .iconHidden:nth-child(2) { /* Target the X icon */
+   transform: rotate(-45deg) scale(0);
+}
+
+
+/* --- Hamburger Overlay Styles (Keep as is) --- */
+.hamburgerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  clip-path: circle(0px at var(--clip-start-x) var(--clip-start-y));
+  background: rgba(10, 8, 38, 0.85);
+  backdrop-filter: blur(10px); /* Keep blur here if desired for overlay */
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  opacity: 0;
+  transition: clip-path var(--animation-duration) cubic-bezier(0.68, -0.55, 0.27, 1.55),
+              opacity calc(var(--animation-duration) * 0.5) ease-in,
+              background var(--animation-duration) ease;
+}
+
+.hamburgerOverlayOpen {
+  clip-path: circle(150% at var(--clip-start-x) var(--clip-start-y));
+  pointer-events: auto;
+  opacity: 1;
+  transition: clip-path var(--animation-duration) cubic-bezier(0.68, -0.55, 0.27, 1.55),
+              opacity calc(var(--animation-duration) * 0.3) ease-out,
+              background var(--animation-duration) ease;
+}
+
+.menuItems {
+    list-style: none;
+    padding: 0 2rem;
+    margin: 0;
+    text-align: center;
+}
+
+.menuItem {
+    position: relative;
+    padding: 0.8rem 0;
+    cursor: pointer;
+    transform: translateY(30px);
+    opacity: 0;
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+.menuItemVisible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.menuItem span {
+    display: inline-block;
+    transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+.menuItem:hover span {
+    transform: scale(1.05);
+    color: var(--highlight);
+    text-shadow: 0 0 10px var(--highlight);
+}
+.menuItem:focus {
+    outline: none;
+}
+.menuItem:focus span {
+   outline: 2px solid var(--highlight);
+   outline-offset: 4px;
+   border-radius: 4px;
+}
+
+.menuItemSignUp {
+    margin-top: 1.5rem;
+}
+.signUpButtonOverlay {
+    display: inline-block;
+    padding: 0.7rem 1.8rem;
+    background: var(--highlight);
+    color: var(--background);
+    border-radius: 8px;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(0, 216, 255, 0.4);
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+.menuItemSignUp:hover .signUpButtonOverlay {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(0, 216, 255, 0.7);
+    background: var(--secondary-accent);
+    color: var(--text-primary);
+}
+
+/* --- Media Queries (Keep as is) --- */
+/* Small devices (phones, 640px and up) */
+@media (min-width: 640px) {
+  .navbarHeaderMode {
+    width: calc(100%);
+  }
+  .headerContent {
+     padding: 1.5rem;
+  }
+  .signUpButton {
+    display: block; /* Show signup button */
+  }
+  .logoImage {
+    height: 45px;
+  }
+  .menuItem span {
+    font-size: 1rem; /* Increase overlay font size */
+  }
+   .signUpButtonOverlay {
+      font-size: 1.2rem;
+   }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .navbarHeaderMode .navLinks {
+    display: flex;
+  }
+  .navbarHeaderMode .hamburgerButtonHeader {
+      display: none;
+  }
+  .navRightGroup {
+    gap: 2rem;
+  }
+  .navLinks a {
+    font-size: 1rem;
+  }
+    .signUpButton {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Large devices (desktops, 1024px and up) */
+@media (min-width: 1024px) {
+  .navbarHeaderMode {
+      height: 72px;
+  }
+  .logoImage {
+     height: 50px;
+  }
+  .navLinks {
+    gap: 2rem;
+  }
+}
+
+/* Extra large devices (large desktops, 1280px and up) */
+@media (min-width: 1280px) {
+    .navbarHeaderMode {
+        max-width: 1400px;
+    }
+}
+
+/* XXL devices (TVs/Monitors, 1536px and up) */
+@media (min-width: 1536px) {
+    .navbarHeaderMode {
+        max-width: 1600px;
+    }
+     .navLinks {
+       gap: 2.5rem;
+     }
+}
+
+/* --- Styles for User Dropdown --- */
+.usernameButton {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background-color: transparent;
+  color: var(--text-primary, #F5F5F5);
+  border-radius: 8px;
+  font-weight: 700;
+  font-family: var(--font-heading, 'Poppins', sans-serif);
+  border: 1px solid var(--secondary-accent, #8B5CF6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: none; /* Hidden on mobile */
+}
+
+/* Show on tablet/desktop */
+@media (min-width: 768px) {
+  .usernameButton {
+    display: block;
+  }
+}
+
+
+.usernameButton:hover {
+  background-color: rgba(139, 92, 246, 0.2); /* secondary-accent with alpha */
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+}
+
+/* --- UPDATED DROPDOWN STYLES --- */
+
+/* This targets the content box of the dropdown */
+.dropdownContent {
+  background-color: rgba(26, 26, 61, 0.9) !important; /* Match navbar */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(245, 245, 245, 0.1);
+  color: var(--text-primary, #F5F5F5);
+  z-index: 1001 !important; /* Bring to front */
+  margin-top: 0.5rem; /* Move it down */
+}
+
+/* This styles the "Logout" item */
+.logoutItem {
+  /* --- Bigger --- */
+  font-size: 0.8rem; /* Larger text */
+  padding: 0.5rem; /* More padding */
+  
+  /* --- Creative / Style --- */
+  color: #ff8a8a; /* Bright red text */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: 600; /* Bolder */
+  border-radius: 6px; /* Rounded corners for the item */
+  transition: all 0.2s ease;
+}
+
+/* This styles the hover/focus state of the item */
+.logoutItem:hover,
+.logoutItem[data-highlighted] {
+  /* Use your site's accent color for the background */
+  background-color: var(--secondary-accent, #8B5CF6) !important; 
+  color: white !important; /* Bright white text on hover */
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+}

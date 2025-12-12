@@ -1,0 +1,183 @@
+/* src/components/GalleryMarquee/GalleryMarquee.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Krona+One:wght@400&display=swap');
+
+/* --- Base Theme Variables (if not global) --- */
+:root {
+  --background: #0A0826;
+  --highlight: #00D8FF;
+  --secondary-accent: #8B5CF6;
+  --text-primary: #F5F5F5;
+}
+
+.gallerySection {
+  height: auto;
+  max-height: 330px; /* UPDATED: 110px * 3 images */
+  position: relative;
+  background-color: var(--background);
+  overflow: hidden;
+  padding: 10px 0;
+  box-sizing: border-box;
+}
+
+/* Title Overlay */
+.galleryTitle {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-family: 'Krona One', monospace;
+  font-size: clamp(1.5rem, 6vw, 3rem);
+  color: var(--text-primary);
+  text-shadow: 0 0 15px var(--highlight);
+  z-index: 10;
+  padding: 0 1rem;
+}
+
+/* Layout Container */
+.galleryContainer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 0.3fr;
+  height: 100%;
+  min-height: 330px; /* UPDATED: Match section height */
+  gap: 5px;
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+/* Wrapper for the two middle rows */
+.horizontalContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  overflow: hidden;
+}
+
+/* Base marquee track */
+.marqueeTrack {
+  display: flex;
+  overflow: hidden;
+}
+.horizontal {
+  flex-direction: row;
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+.vertical {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
+/* Track Content (Animated Element) */
+.trackContent {
+  display: flex;
+  will-change: transform;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.horizontal .trackContent {
+  flex-direction: row;
+}
+.vertical .trackContent {
+  flex-direction: column;
+}
+
+/* Mobile media item size */
+.mediaItem {
+  width: 100%;
+  height: 90px;
+  margin: 5px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px 3px rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(245, 245, 245, 0.1);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mediaContent {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Animations (Speeds are mobile-first) */
+@keyframes moveLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.moveLeft .trackContent { animation-name: moveLeft; animation-duration: 25s; }
+
+@keyframes moveRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+.moveRight .trackContent { animation-name: moveRight; animation-duration: 25s; }
+
+@keyframes moveUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+.moveUp .trackContent { animation-name: moveUp; animation-duration: 35s; }
+
+@keyframes moveDown { 0% { transform: translateY(-50%); } 100% { transform: translateY(0); } }
+.moveDown .trackContent { animation-name: moveDown; animation-duration: 35s; }
+
+/* --- Media Queries --- */
+
+/* Tablets */
+@media (min-width: 768px) {
+  .gallerySection {
+    padding: 15px 0;
+    height: auto;
+    max-height: 450px;
+  }
+   .galleryTitle {
+      font-size: clamp(2.5rem, 6vw, 3rem);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+   }
+   .galleryContainer {
+      grid-template-columns: auto 1fr auto;
+      grid-template-rows: 0.3fr;
+      min-height: 400px;
+      gap: 15px;
+   }
+   
+   .mediaItem {
+     width: 200px;
+     height: 140px;
+     margin: 8px;
+     border-radius: 10px;
+   }
+    .moveLeft .trackContent, .moveRight .trackContent { animation-duration: 30s; }
+    .moveUp .trackContent, .moveDown .trackContent { animation-duration: 40s; }
+}
+
+/* Large Screens */
+@media (min-width: 1024px) {
+   .gallerySection {
+     height: 200vh; /* CORRECTED */
+      max-height: auto;
+      padding: 0;
+   }
+    .galleryTitle {
+        font-size: 3rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+   .galleryContainer {
+     grid-template-columns: auto 1fr auto;
+    grid-template-rows: 1fr;
+     min-height: 0;
+     gap: 20px;
+   }
+   .mediaItem {
+     width: 250px;
+     height: 180px;
+     margin: 10px;
+     border-radius: 12px;
+   }
+}

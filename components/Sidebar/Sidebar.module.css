@@ -1,0 +1,292 @@
+/* Base Sidebar Container */
+.sidebarContainer {
+  --sidebar-width: 250px; /* Start narrower for mobile */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--sidebar-width); /* Use variable */
+  transform: translateX(-100%); /* Use percentage */
+  transition: transform var(--animation-duration) ease-out;
+  display: flex;
+  flex-direction: column;
+  padding: 15px; /* Adjust padding */
+  box-sizing: border-box;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+  background: var(--sidebar-background, linear-gradient(180deg, rgba(10, 8, 38, 1) 0%, rgba(20, 16, 68, 1) 100%)); /* Fallback added */
+  color: var(--text-color, #F5F5F5); /* Fallback added */
+  z-index: var(--z-index, 1000); /* Use variable or default */
+}
+
+.sidebarContainer.open {
+  transform: translateX(0);
+}
+
+/* Sidebar Backdrop */
+.sidebarBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: opacity var(--animation-duration) ease-out;
+  opacity: 0; /* Start hidden */
+  pointer-events: none; /* Non-interactive initially */
+  z-index: calc(var(--z-index, 1000) - 1); /* Ensure it's behind sidebar */
+}
+/* Apply this class dynamically in JS when sidebar is open */
+.sidebarBackdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+/* Optional Blur for Backdrop */
+.blurBackdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Sidebar Header */
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 15px; /* Adjust */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 15px; /* Adjust */
+}
+
+.sidebarLogo {
+  height: 35px; /* Adjust */
+  width: auto;
+  margin-right: 8px; /* Adjust */
+}
+
+.sidebarHeader h2 {
+  font-size: 1.1rem; /* Adjust */
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--heading-color, #E0E0E0); /* Fallback added */
+  flex-grow: 1;
+  font-family: var(--fontFamily, '"Krona One", monospace'); /* Use variable or default */
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color, #F5F5F5); /* Fallback added */
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.closeButton:hover {
+  opacity: 1;
+}
+
+
+/* Menu Items Wrapper */
+.menuItemsWrapper {
+  flex-grow: 1;
+  overflow-y: auto; /* Enable scrolling if many items */
+   /* Simple scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+.menuItemsWrapper::-webkit-scrollbar {
+  width: 6px;
+}
+.menuItemsWrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.menuItemsWrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px; /* Adjust */
+  margin-bottom: 6px; /* Adjust */
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px; /* Adjust */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  will-change: transform, background-color;
+  color: var(--text-color, #F5F5F5); /* Fallback added */
+  white-space: nowrap;
+  font-family: var(--fontFamily, '"Krona One", monospace'); /* Use variable or default */
+  font-weight: var(--fontWeight, 'normal'); /* Use variable or default */
+
+  /* Initial state for individual item animation */
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* Class applied dynamically in JS when sidebar is open */
+.menuItem.visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition-property: opacity, transform;
+  transition-timing-function: ease-out;
+  transition-duration: 0.4s; /* Consistent with prop */
+  /* transition-delay is applied inline */
+}
+
+
+.menuItem:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateX(5px);
+}
+
+.menuIcon {
+  margin-right: 12px; /* Adjust */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color, #8B5CF6); /* Fallback added */
+}
+
+.menuItem span {
+  display: flex;
+  align-items: center;
+}
+
+/* Font Sizes - applied via classes */
+.fontSm { font-size: 0.85rem; }
+.fontMd { font-size: 0.95rem; } /* Default */
+.fontLg { font-size: 1.05rem; }
+.fontXl { font-size: 1.15rem; }
+.font2xl { font-size: 1.25rem; }
+
+/* Footer */
+.sidebarFooter {
+  padding-top: 15px; /* Adjust */
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto; /* Pushes footer to the bottom */
+  text-align: center;
+}
+
+.signUpButtonSidebar {
+  width: 100%;
+  padding: 12px 15px; /* Adjust */
+  border-radius: 8px;
+  background-color: var(--accent-color, #8B5CF6); /* Fallback added */
+  color: #fff;
+  font-family: var(--fontFamily, '"Krona One", monospace'); /* Use variable or default */
+  font-weight: bold;
+  font-size: 1rem; /* Adjust */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.signUpButtonSidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.signUpButtonSidebar:hover {
+  /* Use color-mix if supported, otherwise fallback */
+  background-color: color-mix(in srgb, var(--accent-color, #8B5CF6) 80%, black);
+  transform: translateY(-2px);
+}
+/* Fallback for browsers not supporting color-mix */
+@supports not (background-color: color-mix(in srgb, #8B5CF6 80%, black)) {
+  .signUpButtonSidebar:hover {
+    background-color: #7a4ee0; /* Pre-calculated darker shade */
+  }
+}
+.logoutButtonSidebar {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  background-color: transparent; /* Different background */
+  color: #ff8a8a; /* Reddish text */
+  font-family: var(--fontFamily, '"Krona One", monospace');
+  font-weight: bold;
+  font-size: 1rem;
+  border: 1px solid #ff8a8a; /* Reddish border */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.logoutButtonSidebar:hover {
+  background-color: rgba(255, 138, 138, 0.1);
+  color: #ff6b6b;
+}
+
+/* --- Media Queries --- */
+
+/* Tablets (adjust breakpoint as needed) */
+@media (min-width: 640px) {
+  .sidebarContainer {
+    --sidebar-width: 280px; /* Original width */
+    padding: 20px;
+
+  }
+   .sidebarHeader {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+   .sidebarHeader h2 {
+    font-size: 1.2rem;
+  }
+  .sidebarLogo {
+     height: 40px;
+     margin-right: 10px;
+  }
+  .menuItem {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+  }
+   .menuIcon {
+    margin-right: 15px;
+  }
+  .fontMd { font-size: 1rem; } /* Update default for tablet+ */
+  .fontLg { font-size: 1.1rem; }
+  .fontXl { font-size: 1.2rem; }
+  .font2xl { font-size: 1.3rem; }
+  .sidebarFooter {
+    padding-top: 20px;
+  }
+  .signUpButtonSidebar {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+  }
+  .logoutButtonSidebar {
+    padding: 15px 20px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Large screens (optional adjustments if needed) */
+@media (min-width: 1280px) {
+   .sidebarContainer { --sidebar-width: 320px; } 
+}
+

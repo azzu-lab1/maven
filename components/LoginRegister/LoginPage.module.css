@@ -1,0 +1,250 @@
+/* src/components/LoginRegister/LoginPage.module.css */
+
+/* --- Fullscreen Dialog Content Styling --- */
+.dialogContentFullscreen {
+  background-color: #00000000 !important;
+  color: white !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  top: 0 !important;
+  left: 0 !important;
+  transform: none !important;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}
+
+/* Hide default button */
+.dialogContentFullscreen > button[aria-label="Close"] {
+  display: none !important;
+}
+
+/* --- NEW: Floating Close Button --- */
+.floatingCloseButton {
+  position: absolute;
+  top: 21%;
+  left: 68%;
+  /* Center */
+  transform: translate(-50%, -50%);
+  /* Match loader background offset */
+  margin-top: 4rem; 
+  z-index: 30; /* Above all */
+  
+  /* Style */
+  width: 3.25rem;
+  height: 3.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  background-color: rgb(86, 89, 109);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s, transform 0.2s;
+}
+.floatingCloseButton:hover:not(:disabled) {
+  background-color: rgba(56, 58, 77, 1);
+  transform: translate(-50%, -50%) scale(1.05); /* Hover effect */
+}
+.floatingCloseButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* --- END NEW --- */
+
+
+/* --- Circular Loader --- */
+.loaderContainer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* Let button clicks pass */
+}
+/* Allow clicks on button */
+.loaderContainer > button {
+  pointer-events: all;
+}
+
+
+/* --- Background for the Ring --- */
+.loaderBackground {
+  position: absolute;
+  margin-top: 4rem;
+  width: calc(min(80vh, 80vw));
+  height: calc(min(80vh, 80vw));
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(0, 0, 0) 50%, rgb(0, 0, 0) 100%);
+  z-index: -1;
+}
+
+
+.loaderCenter {
+  position: relative;
+  width: min(80vh, 80vw);
+  height: min(80vh, 80vw);
+  transform-style: preserve-3d;
+}
+
+@keyframes colorTrail {
+  0% { background-color: #9000ff; opacity: 1; }
+  10%, 25% { background-color: #9000ff; opacity: 1; }
+  35%, 45% { background-color: #3c295c; opacity: 1; }
+  55%, 65% { background-color: #6b7280; opacity: 0.6;  }
+  75%, 100% { background-color: transparent; opacity: 0;  }
+}
+
+.loaderBar {
+  position: absolute;
+  width: 0.5rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: transparent;
+  opacity: 0;
+  left: calc(50% - 0.25rem);
+  top: 50%;
+  transform-origin: bottom center;
+  transform: rotate(calc(var(--bar-index) * 9deg)) translateY(calc(min(80vh, 80vw) * -0.4));
+  animation-name: colorTrail;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-delay: calc(var(--bar-index) * -0.05s);
+  z-index: 0;
+}
+
+/* --- Form Container --- */
+.formContainer {
+  position: relative;
+  z-index: 10;
+  padding: 1rem 1.5rem;
+  margin-top: 5rem;
+  max-width: 22rem;
+  width: 90%;
+  background: transparent;
+}
+
+/* --- Title --- */
+.title {
+  font-size: 3rem;
+  line-height: 1.5;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #7300ff, #c684ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 2px rgba(198, 132, 255, 0));
+}
+
+/* --- Form & Inputs --- */
+.form { display: flex; flex-direction: column; gap: 1rem; }
+.inputGroup { position: relative; }
+
+.inputField {
+  width: 100%;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  background-color: rgba(56, 58, 77, 0.8);
+  border: 1px solid #4b5563;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: box-shadow 0.2s, border-color 0.2s, background-color 0.2s;
+  color: white;
+  outline: none;
+}
+.inputField:disabled { background-color: rgba(75, 85, 99, 0.6); cursor: not-allowed; }
+.inputField::placeholder { color: #ccd0d9; }
+.inputField:focus { box-shadow: 0 0 0 2px #5a16f9; border-color: transparent; }
+
+.inputIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bdc6d5;
+  pointer-events: none;
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bdc6d5;
+  background: none; border: none; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.eyeIcon:hover { color: #ffffff; }
+.eyeIcon:focus { outline: none; color: #ffffff; }
+.eyeIcon:disabled { cursor: not-allowed; opacity: 0.5; }
+
+/* --- Links --- */
+.forgotPasswordLinkContainer { text-align: right; font-size: 0.875rem; line-height: 1.25rem; margin-top: -0.25rem; }
+.forgotPasswordLink { color: #bdc5d2; transition: color 0.2s; }
+.forgotPasswordLink:hover { font-weight: 500; color: #ffffff; }
+.disabledLink { pointer-events: none; opacity: 0.6; }
+
+.signUpLinkContainer { text-align: center; font-size: 1rem; line-height: 1.25rem; margin-top: 0.8rem; color: #ffffff; }
+.switchModeButton {
+  color: #d991ff; font-weight: 600;
+  transition: text-decoration 0.2s, color 0.2s, opacity 0.2s;
+  background: none; border: none; padding: 0; cursor: pointer; font-size: inherit;
+}
+.switchModeButton:hover:not(:disabled) { text-decoration: underline; color: #d19cfa; }
+.switchModeButton:focus { outline: 1px dotted #b83cfb; outline-offset: 2px; }
+.switchModeButton:disabled { opacity: 0.6; cursor: not-allowed; text-decoration: none; color: #9ca3af; }
+
+/* --- Login/Register Button --- */
+.loginButton {
+  position: relative; overflow: hidden; width: 100%; display: flex;
+  align-items: center; justify-content: center; gap: 0.5rem;
+  padding-top: 0.6rem; padding-bottom: 0.6rem; font-size: 1.1rem; font-weight: 700;
+  border-radius: 9999px; color: white; background-color: #383a4d;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer; border: none; margin-top: 0.5rem;
+}
+.loginButton:hover:not(:disabled) { transform: scale(1.03); box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.25), 0 5px 8px -4px rgba(0, 0, 0, 0.25); }
+.loginButton:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+.loginButton:disabled .loginButtonProgress { filter: grayscale(50%); }
+.loginButton:disabled .loginButtonProgressLoading { animation: none; opacity: 0; }
+
+.loginButtonText { position: relative; z-index: 2; color: #bdc6d5; transition: color 0.4s ease; }
+.loginButtonIcon { position: relative; z-index: 2; color: #bdc6d5; transition: color 0.4s ease, opacity 0.3s ease; opacity: 0; }
+.loginButton:not(:disabled):not(.loginButtonLoading):has(.loginButtonProgress[style*="width: 100%"]) .loginButtonIcon { opacity: 1; color: white; }
+.loginButton:not(:disabled):not(.loginButtonLoading):has(.loginButtonProgress[style*="width: 100%"]) .loginButtonText { color: white; }
+
+.loginButtonProgress {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background-image: linear-gradient(to right, #3c295c, #5d00ff);
+  border-radius: 9999px;
+  transition: width 0.4s ease-out, filter 0.3s ease, opacity 0.1s ease-out;
+  z-index: 1; box-shadow: 0 0 15px 3px rgba(157, 0, 255, 0.429); opacity: 1;
+}
+
+/* --- Login Loading Progress Bar --- */
+@keyframes loadingProgress { 0% { transform: translateX(-100%); } 50% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+.loginButtonProgressLoading {
+  position: absolute; top: 0; left: 0; height: 100%; width: 50%;
+  background-image: linear-gradient(to right, transparent, #5d00ff, transparent);
+  border-radius: 9999px; opacity: 0; transition: opacity 0.3s ease; z-index: 1;
+  animation: loadingProgress 1.5s linear infinite;
+}
+.loginButtonLoading .loginButtonProgressLoading { opacity: 1; }
+.loginButtonLoading .loginButtonText { color: white; }
+.loginButtonLoading .loginButtonProgress, .loginButtonLoading .loginButtonIcon { width: 0 !important; opacity: 0; transition: opacity 0.1s ease-out, width 0s linear 0.1s; }
